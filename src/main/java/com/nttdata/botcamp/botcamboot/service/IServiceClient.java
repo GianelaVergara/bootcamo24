@@ -1,16 +1,16 @@
 package com.nttdata.botcamp.botcamboot.service;
-import  com.nttdata.botcamp.botcamboot.model.client;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
+import   com.nttdata.botcamp.botcamboot.model.Client;
 
 public interface IServiceClient {
 
-    Flux<client> findAll();
-    Mono<client> save(client Client);
-    Mono<client> update(client Client);
+    public Mono<Client> findByDni(String numberDOc);
+    public Flux<Client> findByClientType(Integer typeClient);
+    public Flux<Client> findAll();
 
-    Flux<client> findClientByDNI(String dni);
 
-    Mono<Void> delete(Integer Client);
+    public Mono<Client> deleteClient(String id);
+    public Mono<Client> getClient(String id);
+
 }

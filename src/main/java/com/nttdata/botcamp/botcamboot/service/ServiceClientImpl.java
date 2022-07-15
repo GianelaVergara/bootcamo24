@@ -1,43 +1,46 @@
 package com.nttdata.botcamp.botcamboot.service;
+
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
+import com.nttdata.botcamp.botcamboot.model.Client;
 import reactor.core.publisher.Mono;
-import  com.nttdata.botcamp.botcamboot.model.client;
-
-import java.util.ArrayList;
-import java.util.List;
 @Service
+@Slf4j
 public class ServiceClientImpl implements IServiceClient {
 
     @Autowired
-    IServiceClient serviceClient;
+    private IServiceClient iserviceClient;
+
 
     @Override
-    public Flux<client> findAll()
-    {
-        return  serviceClient.findAll();
+    public Mono<Client> findByDni(String numberDOc) {
+        return iserviceClient.findByDni(numberDOc);
     }
 
     @Override
-    public Mono<client> save(client Client) {
-        return  serviceClient.save(Client);
+    public Flux<Client> findByClientType(Integer typeClient) {
+        return iserviceClient.findByClientType(typeClient);
     }
 
     @Override
-    public Mono<client> update(client Client) {
-        return  null;
+    public Flux<Client> findAll() {
+        return iserviceClient.findAll();
     }
 
-@Override
-public Flux<client> findClientByDNI(String dni)
-{
-    return  serviceClient.findAll().filter(x->x.getNumberDoc().equals(dni));
-}
+
 
     @Override
-    public Mono<Void> delete(Integer id_Client) {
-        return  null;
+    public Mono<Client> deleteClient(String id) {
+        return getClient(id).flatMap(c -> iserviceClient.deleteClient(c.getId()).thenReturn(c));
     }
+
+    @Override
+    public Mono<Client> getClient(String id) {
+
+        return iserviceClient.findByDni(id);
+    }
+
+
 }

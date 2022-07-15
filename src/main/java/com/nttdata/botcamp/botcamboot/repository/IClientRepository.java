@@ -1,10 +1,11 @@
 package com.nttdata.botcamp.botcamboot.repository;
 
-import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
-import org.springframework.stereotype.Repository;
-import  com.nttdata.botcamp.botcamboot.model.client;
 
+import  com.nttdata.botcamp.botcamboot.model.Client;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
-@Repository
-public interface IClientRepository extends ReactiveCrudRepository<client,Integer> {
+import reactor.core.publisher.Flux;
+
+public interface IClientRepository extends ReactiveCrudRepository<Client,String> {
+
+    Flux<Client> findByClientId(String id);
 }
